@@ -1,0 +1,6 @@
+
+1. feat: initial project skeleton (backend + frontend + infra)
+2. feat: add inference adapters (mock, openai, hf)
+3. infra: add postgres + grafana docker-compose
+4. test: add unit tests
+5. docs: add step-by-step guide and secrets guidance

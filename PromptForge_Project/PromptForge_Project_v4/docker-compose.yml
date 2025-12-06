@@ -1,0 +1,35 @@
+
+version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: infra/Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PROVIDER=mock
+      - DATABASE_URL=postgresql://promptforge_user:promptforge_pass@postgres:5432/promptforge
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: promptforge_user
+      POSTGRES_PASSWORD: promptforge_pass
+      POSTGRES_DB: promptforge
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  grafana:
+    image: grafana/grafana:9.5.0
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - postgres
+volumes:
+  pgdata:
